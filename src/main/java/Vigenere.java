@@ -2,13 +2,61 @@ import java.util.Scanner;
 
 public class Vigenere {
     public static String encryptVigenere(String message, String key) {
-        return message;
-        // REPLACE THIS WITH YOUR CODE
+        String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String key1 = "";
+        int keyRep = (int)((message.length() / key.length()) + 1);
+        for(int j = 0; j<keyRep; j++)
+        {
+            key1+=key;
+        }
+        String newMsg = "";
+        int space = 0;
+        for(int i = 0; i<message.length(); i++)
+        {
+            if(!Character.isLetter(message.charAt(i)))
+            {
+                newMsg += message.charAt(i);
+                space++;
+            }
+            else if(!Character.isLetter((char)((message.charAt(i) + str.indexOf(key1.charAt(i-space))))) )
+            {
+                newMsg += (char)(message.charAt(i) -(26 - str.indexOf(key1.charAt(i-space))));
+            }
+            else
+            {
+                newMsg += (char)(message.charAt(i) + str.indexOf(key1.charAt(i-space)));
+            }
+        }
+        return newMsg;
     }
 
     public static String decryptVigenere(String message, String key) {
-        return message;
-        // REPLACE THIS WITH YOUR CODE
+        String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String key1 = "";
+        int keyRep = (int)((message.length() / key.length()) + 1);
+        for(int j = 0; j<keyRep; j++)
+        {
+            key1+=key;
+        }
+        String newMsg = "";
+        int space = 0;
+        for(int i = 0; i<message.length(); i++)
+        {
+            if(!Character.isLetter(message.charAt(i)))
+            {
+                newMsg += message.charAt(i);
+                space++;
+            }
+            else if(!Character.isLetter((char)((message.charAt(i) - str.indexOf(key1.charAt(i-space))))) )
+            {
+                newMsg += (char)(message.charAt(i) + (26 - str.indexOf(key1.charAt(i-space))));
+            }
+            else
+            {
+                newMsg += (char)(message.charAt(i) - str.indexOf(key1.charAt(i-space)));
+            }
+        }
+        return newMsg;
     }
 
 

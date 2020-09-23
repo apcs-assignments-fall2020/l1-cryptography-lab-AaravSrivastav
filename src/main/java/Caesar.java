@@ -5,7 +5,7 @@ public class Caesar {
         String encryptMsg = "";
         for(int i=0; i<message.length(); i++)
         {
-            if((message.charAt(i) <= 'W' || (message.charAt(i) >= 'a' && message.charAt(i) <= 'w')) && message.charAt(i) != ' ')
+            if(((message.charAt(i) <= 'W' && message.charAt(i) >= 'A') || (message.charAt(i) >= 'a' && message.charAt(i) <= 'w')) && message.charAt(i) != ' ')
             {
                 encryptMsg += (char)(message.charAt(i)+3);
             }
@@ -13,9 +13,13 @@ public class Caesar {
             {
                 encryptMsg += ' ';
             }
-            else if((message.charAt(i)>='x' && message.charAt(i)>='z') || (message.charAt(i)>='X' && message.charAt(i)>='Z'))
+            else if((message.charAt(i)>='x' && message.charAt(i)<='z') || (message.charAt(i)>='X' && message.charAt(i)<='Z'))
             {
                 encryptMsg += (char)(message.charAt(i)-23);
+            }
+            else
+            {
+                encryptMsg += message.charAt(i);
             }
             
         }
@@ -26,7 +30,7 @@ public class Caesar {
         String decryptMsg = "";
         for(int i=0; i<message.length(); i++)
         {
-            if((message.charAt(i) >= 'd' || (message.charAt(i) >= 'D' && message.charAt(i) <= 'Z')) && message.charAt(i) != ' ')
+            if(((message.charAt(i) >= 'd' && message.charAt(i) <= 'z') || (message.charAt(i) >= 'D' && message.charAt(i) <= 'Z')) && message.charAt(i) != ' ')
             {
                 decryptMsg += (char)(message.charAt(i)-3);
             }
@@ -34,9 +38,13 @@ public class Caesar {
             {
                 decryptMsg += ' ';
             }
-            else if((message.charAt(i)>='a' && message.charAt(i)>='c') || (message.charAt(i)>='A' && message.charAt(i)>='C'))
+            else if((message.charAt(i)>='a' && message.charAt(i)<='c') || (message.charAt(i)>='A' && message.charAt(i)<='C'))
             {
                 decryptMsg += (char)(message.charAt(i)+23);
+            }
+            else
+            {
+                decryptMsg += message.charAt(i);
             }
             
         }
@@ -45,19 +53,24 @@ public class Caesar {
 
     public static String encryptCaesarKey(String message, int key) {
         String encryptMsg = "";
+        int key1 = (key%26);
         for(int i=0; i<message.length(); i++)
         {
-            if((message.charAt(i) <= 90-key || (message.charAt(i) >= 'a' && message.charAt(i) <= 122-key)) && message.charAt(i) != ' ')
+            if(((message.charAt(i) <= 90-key1 && message.charAt(i) >= 'A') || (message.charAt(i) >= 'a' && message.charAt(i) <= 122-key1)) && message.charAt(i) != ' ')
             {
-                encryptMsg += (char)(message.charAt(i)+key);
+                encryptMsg += (char)(message.charAt(i)+key1);
             }
             else if(message.charAt(i) == ' ')
             {
                 encryptMsg += ' ';
             }
-            else if((message.charAt(i)>='x' && message.charAt(i)>='z') || (message.charAt(i)>='X' && message.charAt(i)>='Z'))
+            else if((message.charAt(i)>=(char)('z'-key1) && message.charAt(i)<='z') || (message.charAt(i)>=(char)('Z'-key1) && message.charAt(i)<='Z'))
             {
-                encryptMsg += (char)(message.charAt(i)-(26-key));
+                encryptMsg += (char)(message.charAt(i)-(26-key1));
+            }
+            else
+            {
+                encryptMsg += message.charAt(i);
             }
             
         }
@@ -66,20 +79,21 @@ public class Caesar {
 
     public static String decryptCaesarKey(String message, int key) {
         String decryptMsg = "";
+        int key1 = (key%26);
         for(int i=0; i<message.length(); i++)
         {
-            if((message.charAt(i) >= 97+key || (message.charAt(i) >= 97+key && message.charAt(i) <= 'Z')) && message.charAt(i) != ' ')
-            {
-                decryptMsg += (char)(message.charAt(i)+key);
-            }
-            else if(message.charAt(i) == ' ')
-            {
-                decryptMsg += ' ';
-            }
-            else if((message.charAt(i)>='a' && message.charAt(i)>='c') || (message.charAt(i)>='A' && message.charAt(i)>='C'))
-            {
-                decryptMsg += (char)(message.charAt(i) - (26-key));
-            }
+          if((message.charAt(i)>=65+key1 && message.charAt(i) <='Z') || (message.charAt(i)>=97+key1 && message.charAt(i) <='z'))
+          {
+            decryptMsg += (char)(message.charAt(i) - key1);
+          }
+          else if((message.charAt(i)>='a' && message.charAt(i)<=(char)('c'+key1)) || (message.charAt(i)>='A' && message.charAt(i)<=(char)('C'+key1)))
+          {
+            decryptMsg += (char)(message.charAt(i)+(26-key1));
+          }
+          else
+          {
+            decryptMsg += message.charAt(i);
+          }
             
         }
         return decryptMsg;
